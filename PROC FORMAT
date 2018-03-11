@@ -1,0 +1,76 @@
+%let path=FILEPATH; 
+libname orion "/folders/myfolders/ecprg193";
+
+proc print data=orion.employee_payroll;
+run;
+
+* Modify the PROC PRINT step to display only the variables
+ Employee_ID, Salary, Birth_Date, and Employee_Hire_Date.;
+
+proc print data=orion.employee_payroll;
+	var Employee_ID Salary Birth_Date Employee_Hire_Date;
+run;
+
+* Add a FORMAT statement to display Salary in a dollar format, 
+Birth_Date in the 01/31/2012 date style, 
+and Employee_Hire_Date in the 01JAN2012 date style;
+
+proc print data=orion.employee_payroll;
+	var Employee_ID Salary Birth_Date Employee_Hire_Date;
+	format 	Salary dollar11.2
+			Birth_Date mmddyy10.
+			Employee_Hire_Date date9.;
+run;
+
+
+* Practice;
+
+data q1birthdays;
+   set orion.employee_payroll;
+   BirthMonth=month(Birth_Date);
+   if BirthMonth le 3;
+run;
+
+* Add a PROC FORMAT step after the DATA step to 
+create a character format named $GENDER that displays gender codes;
+
+proc format;
+	value $gender
+		  'F'='Female'
+		  'M'='Male';
+run;
+
+* Add another step to create a numeric format named MNAME that displays month numbers;
+
+proc format;
+	value mname
+		  1='January' /* Note that quotation should not be used for numeric format.*/
+		  2='February'
+		  3='March';
+run;
+
+* Creating a report;
+
+data q1birthdays;
+   set orion.employee_payroll;
+   BirthMonth=month(Birth_Date);
+   if BirthMonth le 3;
+run;
+
+proc format;
+	value $gender
+		  'F'='Female'
+		  'M'='Male';
+	value mname
+		  1='January' /* Note that quotation should not be used for numeric format.*/
+		  2='February'
+		  3='March';
+run;
+
+title 'Employees with Birthdays in Q1';
+proc print data=q1birthdays;
+	var Employee_ID Employee_Gender BirthMonth;
+	format Employee_Gender $gender. BirthMonth mname.;
+run;
+
+title;

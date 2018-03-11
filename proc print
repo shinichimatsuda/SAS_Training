@@ -1,37 +1,57 @@
 %let path=FILEPATH; 
 libname orion "/folders/myfolders/ecprg193";
 
-proc contents data=orion.sales;
+proc print data=orion.sales noobs;
+	var first_name last_name salary job_title;
+	where Country='AU' and Salary<30000 and job_title contains 'Rep';
 run;
 
-proc print data=orion.sales;
+* Practice example;
+proc print data=orion.order_fact;
 run;
 
-* Create a data set for practice;
-data work.newpacks;
-   input Supplier_Name $ 1-20 Supplier_Country $ 23-24 
-         Product_Name $ 28-70;
-   datalines;
-Top Sports            DK   Black/Black
-Top Sports            DK   X-Large Bottlegreen/Black
-Top Sports            DK   Comanche Women's 6000 Q Backpack. Bark
-Miller Trading Inc    US   Expedition Camp Duffle Medium Backpack
-Toto Outdoor Gear     AU   Feelgood 55-75 Litre Black Women's Backpack
-Toto Outdoor Gear     AU   Jaguar 50-75 Liter Blue Women's Backpack
-Top Sports            DK   Medium Black/Bark Backpack
-Top Sports            DK   Medium Gold Black/Gold Backpack
-Top Sports            DK   Medium Olive Olive/Black Backpack
-Toto Outdoor Gear     AU   Trekker 65 Royal Men's Backpack
-Top Sports            DK   Victor Grey/Olive Women's Backpack
-Luna sastreria S.A.   ES   Hammock Sports Bag
-Miller Trading Inc    US   Sioux Men's Backpack 26 Litre.
-;
+* Add a SUM statement to display the sum of Total_Retail_Price.;
+proc print data=orion.order_fact;
+	sum total_retail_price;
 run;
 
-* Add a PROC CONTENTS step to display the descriptor portion of work.newpacks.;
-proc contents data=work.newpacks;
+* Add a WHERE statement to select only the observations
+with Total_Retail_Price equal to more than 500. ;
+proc print data=orion.order_fact;
+	where total_retail_price >= 500;
+	sum total_retail_price;
 run;
 
-* Run a proc print to get a report.;
-proc print data=work.newpacks;
+* Add an option to suppress the Obs column. Submit the program.
+Verify that there are 35 observations in the results.
+How can you verify the number of observations in the results?;
+proc print data=orion.order_fact noobs;
+	where total_retail_price >= 500;
+	sum total_retail_price;
+run;
+
+* Add an ID statement to use Customer_ID as the identifying variable. Submit the program.
+The results contain 35 observations. How did the output change?;
+proc print data=orion.order_fact noobs;
+	where total_retail_price >= 500;
+	id customer_id;
+	sum total_retail_price;
+run;
+
+* Add a VAR statement to display Customer_ID, Order_ID, Order_Type, Quantity,
+and Total_Retail_Price. Submit the program and view the results.
+What do you notice about Customer_ID?;
+proc print data=orion.order_fact noobs;
+	where total_retail_price >= 500;
+	id customer_id;
+	var customer_id order_id order_type quantity total_retail_price;
+	sum total_retail_price;
+run;
+
+* Remove the duplicate column by removing Customer_ID from the VAR statement.;
+proc print data=orion.order_fact noobs;
+	where total_retail_price >= 500;
+	id customer_id;
+	var order_id order_type quantity total_retail_price;
+	sum total_retail_price;
 run;

@@ -1,0 +1,74 @@
+%let path=FILEPATH; 
+libname orion "/folders/myfolders/ecprg193";
+
+* Practice;
+
+proc print data=orion.sales noobs;
+   where Country='AU' and 
+         Job_Title contains 'Rep. IV';
+run;
+
+* Add a VAR statement to display only the variables Employee_ID, 
+ First_Name, Last_Name, Gender, and Salary.;
+ 
+proc print data=orion.sales noobs;
+	where Country='AU' and
+	      Job_Title contains 'Rep. IV';
+	var Employee_ID First_Name Last_Name Gender Salary;
+run;
+
+* Add TITLE and FOOTNOTE statements to include the titles and footnotes;
+
+title1 'Australian Sales Employees';
+title2 'Senior Sales Representatives';
+footnote1 'Job_Title: Sales Rep. IV';
+
+proc print data=orion.sales noobs;
+	where Country='AU' and
+	      Job_Title contains 'Rep. IV';
+	var Employee_ID First_Name Last_Name Gender Salary;
+run;
+
+title;
+footnote;
+run;
+
+* Add labels.;
+
+title1 'Australian Sales Employees';
+title2 'Senior Sales Representatives';
+footnote1 'Job_Title: Sales Rep. IV';
+
+proc print data=orion.sales noobs label;
+	where Country='AU' and
+	      Job_Title contains 'Rep. IV';
+	var Employee_ID First_Name Last_Name Gender Salary;
+	label Employee_ID = 'Employee ID'
+		  First_Name = 'First Name'
+		  Last_Name = 'Last Name'
+		  Salary = 'Annual Salaly';
+run;
+
+title;
+footnote;
+run;
+
+* Add SPLIT statement to make two-line headings;
+
+title1 'Australian Sales Employees';
+title2 'Senior Sales Representatives';
+footnote1 'Job_Title: Sales Rep. IV';
+
+proc print data=orion.sales noobs label split = '*';
+	where Country='AU' and
+	      Job_Title contains 'Rep. IV';
+	var Employee_ID First_Name Last_Name Gender Salary;
+	label Employee_ID = 'Employee*ID'
+		  First_Name = 'First*Name'
+		  Last_Name = 'Last*Name'
+		  Salary = 'Annual*Salaly';
+run;
+
+title;
+footnote;
+run;

@@ -1,0 +1,8 @@
+%let path=FILEPATH; 
+libname orion "/folders/myfolders/ecprg193";
+
+* Use contains statement to select specific observations;
+proc print data=orion.sales noobs;
+	var first_name last_name salary job_title;
+	where Country='AU' and Salary<30000 and job_title contains 'Rep';
+run;

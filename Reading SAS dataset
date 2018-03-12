@@ -1,0 +1,59 @@
+%let path=FILEPATH; 
+libname orion "/folders/myfolders/ecprg193";
+
+* Practice;
+
+proc print data=orion.customer_dim;
+run;
+
+* Replace the PROC PRINT step with a DATA step that 
+creates a new data set named work.youngadult.
+Use the data set orion.customer_dim as input.
+Include a WHERE statement to select only female customers.
+Submit the program and check the log to confirm that work.youngadult was created
+ with 30 observations and 11 variables.;
+
+data work.youngadult;
+	set orion.customer_dim;
+	where Customer_Gender='F';
+run;
+
+* Modify the DATA step to select female customers whose age is between 18 and 36.
+Submit the program and check the log to confirm 
+that work.youngadult was created with 15 observations and 11 variables.;
+
+data work.youngadult;
+	set orion.customer_dim;
+	where Customer_Gender='F' and
+		  Customer_Age between 18 and 36;
+run;
+
+* Modify the DATA step to select 18- to 36-year-old female customers 
+who have the word Gold in their Customer_Group values.
+Submit the program and check the log to confirm that work.youngadult 
+was created with 5 observations and 11 variables.;
+
+data work.youngadult;
+	set orion.customer_dim;
+	where Customer_Gender='F' and
+	      Customer_Age between 18 and 36 and
+	      Customer_Group contains 'Gold';
+run;
+
+* Add an assignment statement to the DATA step to create a new variable, 
+ Discount, and assign it a value of .25. Submit the program and check the log to
+ confirm that work.youngadult was created with 5 observations and 12 variables;
+
+data work.youngadult;
+	set orion.customer_dim;
+	where Customer_Gender='F' and
+	      Customer_Age between 18 and 36 and
+	      Customer_Group contains 'Gold';
+	Discount = .25; /* Create new variable Discount and assign .25 to them*/
+run;
+
+proc print data=work.youngadult;
+   var Customer_Name Customer_Age  
+       Customer_Gender Customer_Group Discount;
+   id Customer_ID;
+run;

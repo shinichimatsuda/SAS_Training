@@ -1,0 +1,97 @@
+%let path=FILEPATH; 
+libname orion "/folders/myfolders/ecprg193";
+
+* Practice;
+
+data work.increase;
+   set orion.staff;
+   Increase=Salary*0.10;
+   NewSalary=Salary+Increase;
+run;
+
+* Modify the DATA step to select only the observations 
+with Emp_Hire_Date values on or after July 1, 2010.
+Subset the observations as they are being read into the PDV.;
+
+data work.increase;
+	set orion.staff;
+	where Emp_Hire_Date >= '01JUL2010'd;
+	Increase=Salary*0.10;
+	NewSalary=Salary+Increase;
+run;
+
+* Modify the DATA step to select only the observations
+ that have an Increase value greater than 3000. ;
+
+data work.increase;
+	set orion.staff;
+	where Emp_Hire_Date >= '01JUL2010'd;
+	Increase=Salary*0.10;
+	if Increase>3000; /*Select observations greater than 3000 for Increase value*/
+	NewSalary=Salary+Increase;
+run;
+
+* The new data set should contain only the following variables: 
+Employee_ID, Emp_Hire_Date, Salary, Increase, and NewSalary. ;
+
+data work.increase;
+	set orion.staff;
+	where Emp_Hire_Date >= '01JUL2010'd;
+	Increase=Salary*0.10;
+	if Increase>3000; /*Select observations greater than 3000 for Increase value*/
+	NewSalary=Salary+Increase;
+	keep Employee_ID Emp_Hire_Date Salary Increase NewSalary;
+run;
+
+* Add permanent labels for Employee_ID, Emp_Hire_Date, and NewSalary.
+ Add a PROC CONTENTS step and submit the program to verify
+ that the labels are stored in the descriptor portion of the new data set work.increase. ;
+
+data work.increase label; /* label is unnecessary here */
+	set orion.staff;
+	where Emp_Hire_Date >= '01JUL2010'd;
+	Increase=Salary*0.10;
+	if Increase>3000; /*Select observations greater than 3000 for Increase value*/
+	NewSalary=Salary+Increase;
+	label Employee_ID='Employee ID'
+		  Emp_Hire_Date='Employee Hire Date'
+		  NewSalary='New Annual Salary';
+	keep Employee_ID Emp_Hire_Date Salary Increase NewSalary;
+run;
+
+proc contents data=work.increase;
+run;
+
+* Add permanent formats to display Salary and NewSalary with dollar signs,
+ commas, and two decimal places, and Increase with commas and no decimal places.
+ Add a PROC CONTENTS step and submit the program to verify that the formats are stored
+ in the descriptor portion of the new data set work.increase. ;
+
+
+data work.increase label; /* label is unnecessary here */
+	set orion.staff;
+	where Emp_Hire_Date >= '01JUL2010'd;
+	Increase=Salary*0.10;
+	if Increase>3000; /*Select observations greater than 3000 for Increase value*/
+	NewSalary=Salary+Increase;
+	label Employee_ID='Employee ID'
+		  Emp_Hire_Date='Employee Hire Date'
+		  NewSalary='New Annual Salary';
+	format Salary NewSalary dollar10.2
+		   Increase comma5.;
+	keep Employee_ID Emp_Hire_Date Salary Increase NewSalary;
+run;
+
+proc contents data=work.increase;
+run;
+
+* Some variables have labels and formats that were not defined in this program.
+ How were these created? ;
+
+/* Response: The existing labels and formats were inherited from the input data set, orion.staff. */
+
+* Write a PROC PRINT step to create this report, with labels split over multiple lines.
+ The results should contain 10 observations. ;
+
+proc print data=work.increase split=' ';
+run;

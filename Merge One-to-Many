@@ -1,0 +1,63 @@
+%let path=/folders/myfolders/ecprg193; 
+libname orion "&path";
+
+********** Create Data **********;
+data empsau;
+   input First $ Gender $ EmpID;
+   datalines;
+Togar   M   121150
+Kylie   F   121151
+Birin   M   121152
+;
+
+data phones;
+   input EmpID Type $ Phone $15.;
+   datalines;
+121150 Home +61(2)5555-1793
+121150 Work +61(2)5555-1794
+121151 Home +61(2)5555-1849
+121152 Work +61(2)5555-1850
+121152 Home +61(2)5555-1665
+121152 Cell +61(2)5555-1666
+;
+
+********** One-to-Many Merge **********;
+data empphones;
+   merge  phones empsau;
+   by EmpID;
+run;
+
+proc print data=empphones;
+run;
+
+***** Practice *****;
+
+proc contents data=orion.orders;
+run;
+
+proc contents data=orion.order_item;
+run;
+
+***** Merge datasets *****;
+data work.allorder;
+	merge orion.orders orion.order_item;
+	by Order_ID;
+run;
+
+***** Make a subset including necessary variables *****;
+data work.allorders_sub;
+	set work.allorder;
+	keep Order_ID Order_Item_Num Order_Type
+	     Order_Date Quantity Total_Retail_Price;
+run;
+
+***** Make a report *****;
+proc print data=work.allorders_sub noobs;
+	where qtr(Order_Date)=4 and year(Order_Date)=2011;
+run;
+
+ /* alternate solution */
+proc print data=work.allorders noobs;
+   where Order_Date between 
+        '01Oct2011'd and '31Dec2011'd;
+run;

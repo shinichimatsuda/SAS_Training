@@ -1,0 +1,28 @@
+%let path=/folders/myfolders/ecprg193; 
+libname orion "&path";
+
+* Practice;
+
+data work.increase;
+   set orion.staff;
+   Increase = Salary*0.10;
+   NewSalary = sum(Salary,Increase);
+   BdayQtr = Qtr(Birth_date);
+   keep Employee_ID Salary Birth_Date
+   		Increase NewSalary BdayQtr;
+run;
+
+/* Add parmanent formats */
+
+data work.increase;
+   set orion.staff;
+   Increase = Salary*0.10;
+   NewSalary = sum(Salary,Increase);
+   BdayQtr = Qtr(Birth_date);
+   keep Employee_ID Salary Birth_Date
+   		Increase NewSalary BdayQtr;
+   format Salary Increase NewSalary comma8.;
+run;
+
+proc print data=work.increase label;
+run;

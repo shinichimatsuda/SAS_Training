@@ -1,0 +1,25 @@
+%let path=/folders/myfolders/ecprg193; 
+libname orion "&path";
+
+* Practice;
+proc sort data=orion.employee_payroll
+          out=work.payroll;
+   by Employee_ID;
+run;
+
+proc sort data=orion.employee_addresses
+          out=work.addresses;
+   by Employee_ID;
+run;
+
+/* Merge two data sources by Employee_ID. */
+
+data work.payadd;
+	merge work.payroll work.addresses;
+	by Employee_ID;
+run;
+
+proc print data = work.payadd;
+	var Employee_ID Employee_Name Birth_Date Salary;
+	format Birth_Date weekdate.; /* Assign WEEKDATE format to the Birth_Date*/
+run;

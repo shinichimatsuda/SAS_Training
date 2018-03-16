@@ -1,0 +1,24 @@
+%let path=/folders/myfolders/ecprg193; 
+libname orion "&path";
+
+* Practice;
+
+data work.newemployees;
+   length First $ 12 Last $ 18 Title $ 25; /* Assign length of each variable */
+   infile "&path/newemps.csv" dlm=',';
+   input First $ Last $ Title $ Salary;
+run;
+
+proc print data=work.newemployees;
+run;
+
+* Practice;
+
+data work.qtrdonation;
+	length IDNum $ 6 Qtr1 Qtr2 Qtr3 Qtr4 8;
+	infile "&path/donation.dat" dlm=' ';
+	input IDNum $ Qtr1 Qtr2 Qtr3 Qtr4;
+run;
+
+proc print data=work.qtrdonation;
+run;

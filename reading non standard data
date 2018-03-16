@@ -1,0 +1,45 @@
+%let path=/folders/myfolders/ecprg193; 
+libname orion "&path";
+
+* Practice;
+data work.canada_customers;
+run;
+
+* Add the appropriate INFILE, INPUT, and LENGTH statements to read the 
+comma-delimited raw data file custca.csv from the practice data folder.
+ The values for BirthDate are formatted like this: 01/27/2008.
+ Edit your INPUT statement by adding the colon format modifier and
+ the appropriate informat to describe these values. ;
+
+data work.canada_customers;
+	length First Last $ 20 Gender $1 AgeGroup $12;
+	infile "&path/custca.csv" dlm=',';
+	input First $ Last $ ID Gender $ Birthdate : ddmmyy. Age AgeGroup $;
+run;
+
+* Add a FORMAT statement to the DATA step to format the values of BirthDate
+ like this in the output data set: JAN2008. ;
+
+data work.canada_customers;
+	length First Last $ 20 Gender $1 AgeGroup $12;
+	infile "&path/custca.csv" dlm=',';
+	input First $ Last $ ID Gender $ Birthdate : ddmmyy. Age AgeGroup $;
+	format Birthdate monyy7.; /* Format date like MON2018 */
+run;
+
+* Add a DROP statement to the DATA step to drop the variables ID and Age
+ from the output data set. Add a PROC PRINT step to create this report.
+ The results should contain 15 observations. ;
+
+data work.canada_customers;
+	length First Last $ 20 Gender $1 AgeGroup $12;
+	infile "&path/custca.csv" dlm=',';
+	input First $ Last $ ID Gender $ Birthdate : ddmmyy. Age AgeGroup $;
+	format Birthdate monyy7.; /* Format date like MON2018 */
+	drop ID Age;
+run;
+
+title 'Canadian Customers';
+proc print data=work.canada_customers;
+run;
+title;

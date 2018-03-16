@@ -1,0 +1,24 @@
+%let path=/folders/myfolders/ecprg193; 
+libname orion "&path";
+
+* Example;
+
+data work.contacts;
+   length Name $ 20 Phone Mobile $ 14;
+   infile "&path/phone2.csv" dsd; /* Use dsd option. No need for dlm=','*/
+   input Name $ Phone $ Mobile $;
+run;
+
+proc print data=work.contacts noobs;
+run;
+
+* Practice;
+
+data work.donation;
+	infile "&path/donation.csv" dsd missover;
+	input EmpID $ Q1 $ Q2 $ Q3 $ Q4 $;
+	label EmpID='Employee ID';
+run;
+
+proc print data=work.donation label noobs; /* noobs suppresses observation number*/
+run;

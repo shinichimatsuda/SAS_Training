@@ -1,5 +1,5 @@
-%let path=FILEPATH; 
-libname orion "/folders/myfolders/ecprg193";
+%let path=/folders/myfolders/ecprg193; 
+libname orion "&path";
 
 proc print data=orion.employee_payroll;
 run;

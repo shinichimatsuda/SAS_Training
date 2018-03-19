@@ -1,0 +1,7 @@
+%let path=/folders/myfolders/ecprg193; 
+libname orion "&path";
+
+proc freq data=orion.nonsales2 nlevels
+          order=freq;
+   tables Job_Title/nocum nopercent;
+run;

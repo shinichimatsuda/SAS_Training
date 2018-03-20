@@ -1,0 +1,7 @@
+%let path=/folders/myfolders/ecprg193; 
+libname orion "&path";
+
+proc means data=orion.sales min max sum;
+	var Salary;
+	class Gender Country;
+run;

@@ -1,0 +1,22 @@
+%let path=/folders/myfolders/ecprg193; 
+libname orion "&path";
+
+***** Output to a pdf file *****;
+ods pdf file="/folders/myfolders/OUTPUT/salaries.pdf";
+
+proc means data=orion.sales min max sum;
+	var Salary;
+	class Gender Country;
+run;
+
+ods pdf close;
+
+***** Output to a csv file *****;
+ods csvall file="/folders/myfolders/OUTPUT/salaries.csv";
+
+proc means data=orion.sales min max sum;
+	var Salary;
+	class Gender Country;
+run;
+
+ods csvall close;

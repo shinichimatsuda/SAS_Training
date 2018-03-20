@@ -1,0 +1,13 @@
+%let path=/folders/myfolders/ecprg193; 
+libname orion "&path";
+
+proc univariate data=orion.nonsales2 nextrobs=3;
+	var Salary;
+	ID Employee_ID;
+run;
+
+***** Practice *****;
+
+proc univariate data=orion.price_current;
+	var Unit_Sales_Price Factor;
+run;

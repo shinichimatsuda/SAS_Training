@@ -5,3 +5,14 @@ proc means data=orion.sales min max sum;
 	var Salary;
 	class Gender Country;
 run;
+
+proc means data=orion.sales mean median max min stddev nonobs maxdec=2;
+	var Salary;
+	class Gender Country;
+run;
+
+***** Using the NMISS option in PROC MEANS *****;
+
+proc means data=orion.nonsales2 n nmiss min max;
+	var Salary;
+run;

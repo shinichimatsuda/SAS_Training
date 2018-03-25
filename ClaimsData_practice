@@ -1,0 +1,15 @@
+***** Claims database analysis *****;
+
+
+***** Open SAS dataset *****;
+
+libname claim "";
+
+data work.claims;
+	set claim.dataset;
+run;
+
+proc sort claims;
+	out = claims_sorted;
+	by _COL0;
+run;

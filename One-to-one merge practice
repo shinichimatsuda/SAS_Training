@@ -1,0 +1,38 @@
+***** One-to-one merge;
+***** Create sample data sets;
+data one;
+	input id $ fruit $;
+datalines;
+a apple
+b banana
+c coconut
+a apple
+;
+
+data two;
+	input id $ color $;
+datalines;
+a amber
+c cocoa
+b brown
+c cream
+c carmel
+;
+
+***** Sorting by key variable;
+proc sort data=one out=one_sorted;
+	by id;
+run;
+
+proc sort data=two out=two_sorted;
+	by id;
+run;
+
+***** Merge data sets;
+data merged;
+	merge one_sorted two_sorted;
+	by id;
+run;
+
+proc print data=merged;
+run;

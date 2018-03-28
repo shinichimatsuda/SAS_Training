@@ -1,0 +1,27 @@
+libname jad "/folders/myfolders/DATA/JAD";
+run;
+
+***** Method for random sampling;
+***** Option A;
+
+proc surveyselect data=jad.demo201803 /* Do NOT insert semi-colon here */
+	seed=31475                        /* recommend using this option */
+	method=srs                        /* simple random sample */
+	sampsize=12                       /* sample size */
+	out=work.demo201803sampled;       /* sample stored in this data set */
+run;
+
+proc print data=work.demo201803sampled;
+run;
+
+***** Option B;
+***** To select a certain percentage of the original sample using SAMPRATE= option;
+proc surveyselect data=jad.demo201803
+                  seed=13094425
+                  method=srs
+                  samprate=0.05         /* 0 < sampling rate < 1 */
+                  out=work.demo201803sampled2;
+run;
+
+proc print data=work.demo201803sampled2; 
+run;

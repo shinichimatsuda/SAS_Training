@@ -1,10 +1,21 @@
+***** SAS Certification Prep Guide;
 libname certprep "/folders/myfolders/certprep";
+
+***** Chapter 5: Creating List Reports;
 
 proc sort data=certprep.admit out=work.wgtadmit;
 	by weight age;
 run;
 
 proc print data=work.wgtadmit;
-	var weight	age height fee;
+	var weight age height fee;
 	where age>10;
+run;
+
+*** Re-order by age in descending;
+proc sort data=certprep.admit out=work.wgtadmit2;
+	by descending age weight age; /* Insert descending just before the targeted variable */
+run;
+
+proc print data=work.wgtadmit2;
 run;

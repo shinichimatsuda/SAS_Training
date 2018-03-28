@@ -1,4 +1,3 @@
-```SAS
 ***** One-to-one merge;
 ***** Create sample data sets;
 data one;
@@ -37,4 +36,3 @@ run;
 
 proc print data=merged;
 run;
-```

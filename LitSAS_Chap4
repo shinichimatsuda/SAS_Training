@@ -1,0 +1,8 @@
+libname litSAS "/folders/myfolders/DATA/LitSAS";
+run;
+
+***** Importing the file using INFILE Statement;
+data work.sales;
+	infile '/folders/myfolders/DATA/LitSAS/Flowers.dat';
+	input CustomerID $ @9 SaleDate MMDDYY10. Petunia SnapDragon Marigold;
+run;

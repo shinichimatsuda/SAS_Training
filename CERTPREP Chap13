@@ -1,0 +1,9 @@
+***** SAS Certification Prep Guide;
+libname certprep "/folders/myfolders/certprep";
+
+***** Chapter13: Combining SAS Data Sets;
+
+***** Using concatenating to combine data sets;
+data certprep.concat;
+	set certprep.therapy2012 certprep.therapy2013;
+run;

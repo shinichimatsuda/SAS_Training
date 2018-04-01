@@ -1,0 +1,27 @@
+***** Interleaving;
+
+proc import datafile ='/folders/myfolders/DATA/Udemy/score_data_id_partial'
+dbms=xlsx out= scoredata_p replace;
+run;
+
+proc import datafile ='/folders/myfolders/DATA/Udemy/score_data_id'
+dbms=xlsx out=scoredata replace;
+run;
+
+proc sort data=scoredata_p;
+by stu_id;
+run;
+
+proc sort data=scoredata;
+by stu_id;
+run;
+
+data interleaving;
+	set scoredata_p scoredata;
+	by stu_id;
+run;
+
+proc print data=interleaving;
+title 'Interleaving';
+run;
+title;

@@ -1,0 +1,16 @@
+libname ucla "/folders/myfolders/DATA/UCLA";
+run;
+
+proc means data=ucla.binary;
+	var GRE GPA;
+run;
+
+proc freq data=ucla.binary;
+	tables rank admit rank*admit;
+run;
+
+*** Logistic regression;
+proc logistic data=ucla.binary descending;
+	class rank / param=ref;
+	model admit = GRE GPA rank;
+run;

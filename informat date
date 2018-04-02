@@ -1,0 +1,7 @@
+data datedata;
+    input birthday;
+    informat birthday date9.;
+  datalines;
+    07Jan2002
+  ;
+run;

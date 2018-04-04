@@ -70,3 +70,32 @@ data certprep.merged;
 	merge certprep.demog2_s certprep.visit2_s;
 	by id;
 run;
+
+*** Renaming variables;
+data certprep.merged2;
+	merge certprep.demog2_s (rename=(date=BirthDate))
+		  certprep.visit2_s (rename=(date=VisitDate));
+	by ID;
+run;
+
+proc print data=certprep.merged2;
+run;
+
+*** Using IN option to select matching observations;
+data certprep.merged3;
+	merge certprep.demog2_s (in=indemog)
+		  certprep.visit2_s (in=invisit rename=(Date=VisitDate));
+	by id;
+	if indemog=1 and invisit=1;
+run;
+
+proc print data=certprep.merged3;
+run;
+
+/* The following script gets the same result */
+data certprep.merged3;
+	merge certprep.demog2_s (in=indemog)
+		  certprep.visit2_s (in=invisit rename=(Date=VisitDate));
+	by id;
+	if indemog and invisit;
+run;

@@ -1,0 +1,16 @@
+libname claim "/folders/myfolders/DATA/Claim";
+run;
+
+***** Import dataset;
+
+data claim.sample;
+	infile "/folders/myfolders/DATA/Claim/Sample.csv" dsd;
+	input PATID $ Gender Age;
+run;
+
+***** Review data;
+proc contents data=claim.sample;
+run;
+
+proc print data=claim.sample (firstobs=1 obs=100); /* Show first 100 observations*/
+run;

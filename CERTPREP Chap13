@@ -1,7 +1,8 @@
 ***** SAS Certification Prep Guide;
 libname certprep "/folders/myfolders/certprep";
 
-***** Chapter13: Combining SAS Data Sets;
+*---- Chapter13: Combining SAS Data Sets ---------
+-------------------------------------------------;
 
 ***** Using concatenating to combine data sets;
 data certprep.concat;
@@ -98,4 +99,89 @@ data certprep.merged3;
 		  certprep.visit2_s (in=invisit rename=(Date=VisitDate));
 	by id;
 	if indemog and invisit;
+run;
+
+*** Chapter Quiz;
+
+data work.one;
+	input VarX VarY $;
+	datalines;
+ 	 1 Groucho
+ 	 3 Harpo
+ 	 5 Karl
+;
+run;
+
+data work.two;
+	input VarX VarZ $;
+	datalines;
+ 	 2 Chico
+ 	 4 Zeppo
+;
+run;
+
+data three;
+	set one;
+	set two;
+run;
+
+proc print data=one;
+run;
+
+proc print data=two;
+run;
+
+proc print data=three;
+run;
+
+*** Problem 2;
+data certprep.Props1;
+	input Actor $ Prop $;
+	datalines;
+Curly Anvil
+Larry Ladder
+Moe Poker
+;
+run;
+
+data certprep.Props2;
+	input Actor $ Prop $;
+	datalines;
+Curly Ladder
+Moe Pilers
+;
+run;
+
+data certprep.Props3;
+	set certprep.Props1 certprep.Props2;
+run;
+
+*** Problem 3;
+data certprep.dataone;
+	input Career Supervis Finance;
+	datalines;
+72 26 9
+63 76 7
+96 31 7
+96 98 6
+84 94 6
+;
+run;
+
+data certprep.datatwo;
+	input Variety Feedback Autonon;
+	datalines;
+10 11 70
+85 22 93
+83 63 73
+82 75 97
+36 77 97
+;
+run;
+
+data work.jobsatis;
+	set certprep.dataone certprep.datatwo;
+run;
+
+proc print data=work.jobsatis;
 run;

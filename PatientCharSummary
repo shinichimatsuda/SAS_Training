@@ -1,0 +1,29 @@
+libname health "/folders/myfolders/DATA/Health";
+run;
+
+***** Compute means for continuous variables;
+
+proc means data=demog mean;
+	var AGE HEMODIALYRS BMI BLFER BLSAT BLABL BLHGB;
+	by bldosequartile;
+	output out=mean mean=AGE HEMODYALYRS BMI BLFER BLSAT BLALB BLHGB;
+run;
+
+***** Compute standard deviations for continuous variables;
+proc means data=demog stddev;
+	var AGE HEMODIALYRS BMI BLFER BLSAT BLABL BLHGB;
+	by bldosequartile;
+	output out=stddev stddev=AGE HEMODYALYRS BMI BLFER BLSAT BLALB BLHGB;
+run;
+
+***** Compute count and frequency for categorical variables;
+
+proc freq data=demog;
+	table AGEGROUP/out=a;
+	table ETH/out=b;
+	table SEX/out=c;
+	table REGION/out=d;
+	table BLHYPERTENSN/out=e;
+	table GLE/out=f;
+	by bldosequartile;
+run;

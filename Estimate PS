@@ -18,3 +18,15 @@ proc logistic data=health.chapter2_data_ados;
 	model TX=GENDER SPOUSE WORK AGE PHQ1;
 	output out=health.ADOS2 predicted=PS;
 run;
+
+data health.ados2;
+	set health.ados2;
+	label PS='Propensity Score';
+run;
+
+*** quintiles of propensity scores;
+
+proc rank data=health.ados2 out=health.ados3 groups=5;
+	ranks Quintiles_PS;
+	var PS;
+run;

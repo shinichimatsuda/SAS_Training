@@ -1,0 +1,30 @@
+libname clinical "/folders/myfolders/DATA/Clinical";
+run;
+
+***** Create the AE data set;
+data clinical.AE;
+	input USUBJID $ 1-7 AETERM $ 9-41;
+	datalines;
+	100-101 HEADACHE
+	100-105 HEADACH
+	100-110 MYOCARDINAL INFARCTION
+	200-004 MI
+	300-023 BROKEN LEG
+	400-010 HIVES
+	500-001 LIGHTHEADEDNESS/FACIAL LACERATION
+;
+run;
+/* The above data includes misspelling,
+abbreviation, multiple terms in a single column*/
+
+options nodate nonumber missing = '';
+ods escapechar='#';
+ods pdf style=htmlblue file='program2.2.pdf';
+
+proc freq data=clinical.AE;
+	tables aeterm;
+run;
+
+ods pdf close;
+
+/* To correct table to consider same AEs appropriately, coding is important */

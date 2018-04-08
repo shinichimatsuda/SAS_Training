@@ -1,0 +1,11 @@
+libname clinical "/folders/myfolders/DATA/Clinical";
+run;
+
+***** Categorization numeric data;
+
+data clinical.adsl2;
+	set clinical.adsl;
+	if	. < age <= 18 then agegr1n = 1;
+	if 18 < age <= 65 then agegr1n = 2;
+	else if 65 < age then agegr1n = 3;
+run;

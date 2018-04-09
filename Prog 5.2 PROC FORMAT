@@ -1,0 +1,37 @@
+libname learn "/folders/myfolders/DATA/Learning";
+run;
+
+*** Prog 5.2 Using PROC FORMAT to create user-defined formats;
+
+proc format;
+	value $gender 'M' = 'Male'
+	              'F' = 'Female'
+	              ' ' = 'Not entered'
+	            other = 'Miscoded';
+	value age low-29  = 'Less than 30'
+	          30-50   = '30 to 50'
+	          51-high = '51+';
+	value $linkert '1'= 'Strongly disagree'
+	               '2'= 'Disagree'
+	               '3'= 'No opinion'
+	               '4'= 'Agree'
+	               '5'= 'Strongly agree'
+run;
+
+***** Technical notes *******************************************
+-Formats used with character variables start with a dollor sign.
+-It is OK to use the same name of variable and format.
+ Format should be accompanied with the 'comma (.)'.
+****************************************************************;
+
+*** Prog 5.3 Adding a FORMAT statement in PROC PRINT;
+
+title "Data Set Survey with formatted values";
+proc print data=learn.survey;
+	id ID;
+	var Gender Age Salary Ques1-Ques5;
+	format Gender      $gender.
+	       Age         age.
+	       Ques1-Ques5 $linkert.
+	       Salary      dollar11.2;
+run;

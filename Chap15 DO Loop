@@ -1,0 +1,45 @@
+***** SAS Certification Prep Guide;
+libname certprep "/folders/myfolders/certprep";
+
+***** Do loop;
+
+data certprep.earnings;
+	set certprep.master;
+	Earned = 0;
+	do month = 1 to 12; /* DO index-variable = start TO stop BY increment */
+		earned + (amount + earned) * (rate/12);
+	end;
+run;
+
+data certprep.earnings;
+	Amount = 1000;
+	Rate = .075/12;
+	Earned = 0;
+	do month = 1 to 12;
+		Earned + (amount + Earned) * rate;
+	end;
+run;
+
+*** Counting Iterations of DO Loops;
+
+data certprep.earn (drop = counter); /* counter is an index variable which is to be dropped*/
+	Value = 2000;
+	do counter = 1 to 20;
+		Interest = value * .075;
+		value + interest;
+		 Year + 1;
+		 /* Year+1 accumulates the number of iterations of the DO loop and
+		    stores the total in the new variable Year. */
+	end;
+run;
+
+*** Using Explicit OUTPUT Statements;
+
+data certprep.earn2;
+	Value = 2000;
+	do Year = 1 to 20;
+		Interest = value * .075;
+		value + interest;
+		output;
+	end;
+run;

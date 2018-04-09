@@ -1,0 +1,48 @@
+******************************************************
+Example from SAS logistic model
+https://works.bepress.com/joseph_hilbe/68/download/
+*****************************************************;
+
+*** Create a new dataset with binary variables x and y;
+
+data xdta;
+	input x y @@;
+	datalines;
+	1 1 0 0 1 0 0 1 1
+	0 1 1 1 0 0 1 0 1
+;
+run;
+
+*** Build the logistic model;
+
+proc genmod data=xdta descending;
+	model y=x / dist=binomial link=logit;
+	output out=residual resdev=deviance; /* resdev represents the deviance residual for identifying poorly fitted observations.*/
+run;
+
+*** Another way to build the logistic model;
+
+proc logistic data=xdta descending;
+	model y=x / clparm=both; /* clparm requests confidence intervals for the parameters.*/
+	output out=residual resdev=deviance;
+run;
+
+*** Statistics of deviance residual;
+
+proc means data=residual min q1 median q3 max maxdec=4;
+	var deviance;
+run;
+
+*** Generate a table of y by x;
+
+proc freq data=xdta;
+	tables y*x / norow nocol nocum nopercent;
+run;
+
+*** Estimate statement with exp option provides the odds ratio;
+
+proc genmod data=xdta descending;
+	model y=x / dist=binomial link=logit;
+	estimate 'Intercept' Intercept 1 / exp;
+	estimate 'x' x 1 / exp;
+run;

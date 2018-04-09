@@ -1,0 +1,32 @@
+libname learn "/folders/myfolders/DATA/Learning";
+run;
+
+***** Prog 10.4 Using a SET statement to combine observations from two data sets;
+
+data one_two;
+	set one two;
+run;
+
+proc print data=one;
+run;
+
+proc print data=two;
+run;
+
+proc print data=one_two;
+run;
+
+***** Prog 10.5 Interleaving data sets;
+
+proc sort data=one out=data=one_s;
+	by ID;
+run;
+
+proc sort data=two out=out_s;
+	by ID;
+run;
+
+data interleave;
+	set one_s two_s;
+	by ID;
+run;

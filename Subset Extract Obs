@@ -1,0 +1,6 @@
+***** Extract the last 30 observations from the full data set containing 100 records;
+
+data sub;
+	set data=full_data;
+	if _n_ > 70;
+run;

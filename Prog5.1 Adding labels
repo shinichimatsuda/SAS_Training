@@ -1,0 +1,21 @@
+libname learn "/folders/myfolders/DATA/Learning";
+run;
+
+*** Prog 5.1 Adding labels to variables;
+
+data learn.test_scores;
+	length ID $ 3 Name $ 15;
+	input ID $ Score1-Score3;
+	label ID = 'Student ID'
+	      Score1 = 'Math Score'
+	      Score2 = 'Science Score'
+	      Score3 = 'English Score';
+	datalines;
+	1 90 95 98
+	2 78 77 75
+	3 88 91 92
+;
+run;
+
+proc means data=learn.test_scores mean min max maxdec=1;
+run;

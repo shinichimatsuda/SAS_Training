@@ -16,6 +16,8 @@ data master.ProductResp;
 	;
 run;
 
+* Checking for the list;
+
 proc print data=master.ProductResp label;
 run;
 
@@ -38,6 +40,9 @@ proc sort data=master.mail out=master.mail_s;
 	by Person_ID;
 run;
 
+proc print data=master.mail_s;
+run;
+
 ***** PROC TRANSPOSE;
 
 proc transpose data=master.productresp out=master.productresp2;
@@ -52,6 +57,8 @@ data master.productresp3 (rename=(COL1=person_ID));
 run;
 
 ***** Merge data sets;
+
+* Sort by key ID;
 
 proc sort data=master.productresp3 out=master.productresp3_s;
 	by person_ID;

@@ -16,6 +16,9 @@ data master.ProductResp;
 	;
 run;
 
+proc print data=master.ProductResp label;
+run;
+
 ***** Create a list containing email for people;
 
 data master.mail;

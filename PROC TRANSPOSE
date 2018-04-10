@@ -1,0 +1,68 @@
+libname master "/folders/myfolders/DATA/Master";
+run;
+
+***** Create a list containing product responsible people;
+
+data master.ProductResp;
+	input Product_Name $ 10. Person1 $ Person2 $ Person3 $;
+	label Product_Name = 'Product Name'
+	      Person1 = 'Main'
+	      Person2 = 'Deputy'
+	      Person3 = 'Deputy';
+	datalines;
+	ProductA 001 002 003
+	ProductB 004 005 001
+	ProductC 006 007 002
+	;
+run;
+
+***** Create a list containing email for people;
+
+data master.mail;
+	input Person_Name $ Person_ID $ email $ 20.;
+	datalines;
+	AAA 001 aaa@aaaaa.com
+	CCC 003 ccc@ccccc.com
+	DDD 004 ddd@ddddd.com
+	BBB 002 bbb@bbbbb.com
+	FFF 006 fff@fffff.com
+	EEE 005 eee@eeeee.com
+	GGG 007 ggg@ggggg.com
+	;
+run;
+
+proc sort data=master.mail out=master.mail_s;
+	by Person_ID;
+run;
+
+***** PROC TRANSPOSE;
+
+proc transpose data=master.productresp out=master.productresp2;
+	var person1 person2 person3;
+	by product_name;
+run;
+
+data master.productresp3 (rename=(COL1=person_ID));
+	set master.productresp2;
+		if _NAME_ = 'Person1' then destination = 0;
+		else destination = 1;
+run;
+
+***** Merge data sets;
+
+proc sort data=master.productresp3 out=master.productresp3_s;
+	by person_ID;
+run;
+
+data master.merged;
+	merge master.productresp3_s master.mail_s;
+	by person_ID;
+run;
+
+proc sort data=master.merged out=master.merged_s;
+	by Product_Name destination person_ID;
+run;
+
+proc print data=master.merged_s;
+	var Product_Name Person_Name Person_ID destination email;
+run;

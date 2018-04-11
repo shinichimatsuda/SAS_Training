@@ -1,0 +1,18 @@
+*** Generate a data set;
+
+data work.people;
+	do id = 1 to 100;
+		age = 18;
+		output;
+	end;
+run;
+
+*** Create a subset consisting of the last 30 observations;
+
+data sub;
+	set people;
+	if _n_ > 70;
+run;
+
+proc print data=sub;
+run;

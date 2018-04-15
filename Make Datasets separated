@@ -1,0 +1,31 @@
+data all;
+	input ID $ Value;
+	datalines;
+001 111
+002 222
+003 333
+004 444
+005 555
+006 666
+007 777
+008 888
+009 999
+010 101
+;
+run;
+
+data ds1 ds2 ds3;
+	set all;
+	if 1 <= _N_ <4 then output ds1;
+	else if _N_ <8 then output ds2;
+	else output ds3;
+run;
+
+proc print data=ds1;
+run;
+
+proc print data=ds2;
+run;
+
+proc print data=ds3;
+run;

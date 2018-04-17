@@ -1,0 +1,22 @@
+*** Create sample dataset;
+data sample;
+	input Name $ Score ID $;
+	datalines;
+Ichiro 100 001
+Matsui 90 002
+Kaz 70 003
+;
+run;
+
+proc print data = sample;
+run;
+
+data sample_ordered;
+	attrib ID label = 'ID'
+		   Name label = 'Name'
+		   Score label = 'Score';
+	set sample;
+run;
+
+proc print data = sample_ordered;
+run;

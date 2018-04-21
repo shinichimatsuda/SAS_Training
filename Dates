@@ -1,7 +1,7 @@
 libname learn "/folders/myfolders/DATA/Learning";
 run;
 
-*** Prog 9-1 Read dates from raw data;
+*** PGM 9-1 Read dates from raw data;
 data learn.four_dates;
 	infile "/folders/myfolders/DATA/Learning/dates.txt" truncover;
 	input @1 Subject $3.
@@ -11,3 +11,27 @@ data learn.four_dates;
 		  @34 LastDate date9.;
 run;
 
+*** PGM 9-2 Adding FORMAT;
+data learn.four_dates;
+	infile "/folders/myfolders/DATA/Learning/dates.txt" truncover;
+	input @1 Subject $3.
+		  @5 DOB mmddyy10.
+		  @16 VisitDate mmddyy8.
+		  @26 TwoDigit mmddyy8.
+		  @34 LastDate date9.;
+	format DOB VisitDate date9.
+	       TwoDigit LastDate mmddyy10.;
+run;
+
+*** PGM 9-3 Compute a person's age in years;
+data learn.ages;
+	set learn.four_dates;
+	Age = yrdif(DOB, VisitDate, 'Actual'); /* Compute the difference in years */
+run;
+
+title 'Listing of AGES';
+proc print data = learn.ages;
+	id Subject;
+	var DOB VisitDate Age;
+run;
+title;

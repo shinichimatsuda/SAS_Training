@@ -1,0 +1,13 @@
+libname learn "/folders/myfolders/DATA/Learning";
+run;
+
+*** Prog 9-1 Read dates from raw data;
+data learn.four_dates;
+	infile "/folders/myfolders/DATA/Learning/dates.txt" truncover;
+	input @1 Subject $3.
+		  @5 DOB mmddyy10.
+		  @16 VisitDate mmddyy8.
+		  @26 TwoDigit mmddyy8.
+		  @34 LastDate date9.;
+run;
+
